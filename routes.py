@@ -110,7 +110,7 @@ def login():
             if usuario.tipo == 'admin':
                 return redirect(url_for('dashboard'))  # Redireciona para admin
             else:
-                return redirect(url_for('dashboard_participante'))  # Redireciona para participante
+                return redirect(url_for(__name__ + ".dashboard_participante")) # Redireciona para participante
         else:
             flash('E-mail ou senha incorretos!', 'danger')
 
@@ -169,7 +169,7 @@ def dashboard():
 
         return render_template('dashboard_admin.html', usuario=current_user, oficinas=oficinas_com_inscritos)
 
-    return redirect(url_for('dashboard_participante'))
+    return redirect(url_for(__name__ + ".dashboard_participante"))
 
 
 
