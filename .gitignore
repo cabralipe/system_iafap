@@ -1,0 +1,23 @@
+# Ignorar a pasta do ambiente virtual
+venv/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de cache do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+
+# Configurações do VS Code (se estiver usando)
+.vscode/
+
+# Banco de dados SQLite (se aplicável)
+*.sqlite3
+*.db
