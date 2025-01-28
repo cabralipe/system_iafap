@@ -28,9 +28,8 @@ def create_app():
     from routes import routes
     app.register_blueprint(routes)
 
-    with open('config.json', 'r') as config_file:
-        data = json.load(config_file)  # ✅ O bloco precisa estar indentado corretamente
-    return app
+SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///database.db")
 
 
 app = create_app()
