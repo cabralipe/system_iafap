@@ -1,7 +1,11 @@
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import app, db, login_manager
+from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask_login import login_user
+from models import Usuario
+from extensions import db, login_manager  # Importando apenas o necessário
+
 from models import Usuario, Oficina, Inscricao, OficinaDia, Checkin
 from datetime import datetime
 import os
@@ -94,6 +98,7 @@ def cadastro_participante():
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
+routes = Blueprint("routes", __name__)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

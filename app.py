@@ -3,8 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from datetime import datetime
-from routes import *  # Importa todas as rotas
+from routes import routes  # Importando apenas o Blueprint
 import os
+
 
 
 # Inicializando a aplicação
