@@ -24,15 +24,20 @@ def create_app():
     login_manager.login_view = "routes.login"
     login_manager.session_protection = "strong"
 
-    # Importação e registro das rotas (evita importação circular)
+    # Importação e registro das rotas
     from routes import routes
-    app.register_blueprint(routes)
+    app.register_blueprint(routes)  # Agora está correto
+
+    return app
+
+app = create_app()
+
 
 SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///database.db")
 
 
-app = create_app()
+
 
 # Carregamento do usuário no Flask-Login
 from models import Usuario  # Agora podemos importar sem erro

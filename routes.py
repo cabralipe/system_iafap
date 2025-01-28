@@ -30,9 +30,12 @@ routes = Blueprint('routes', __name__)
 def home():
     return render_template('index.html')
 
-# ===========================
-# CADASTRO DE PARTICIPANTE
-# ===========================
+from flask import Blueprint, render_template, request, redirect, url_for
+from werkzeug.security import generate_password_hash
+from models import db, Usuario  # Certifique-se de que os modelos estão sendo importados corretamente
+
+routes = Blueprint('routes', __name__)  # O nome do Blueprint deve ser 'routes'
+
 @routes.route('/cadastro_participante', methods=['GET', 'POST'])
 def cadastro_participante():
     alert = None  # Inicializa o alerta como None
@@ -43,8 +46,6 @@ def cadastro_participante():
         email = request.form.get('email')
         senha = request.form.get('senha')
         formacao = request.form.get('formacao')
-
-        print(f"📌 Recebido: Nome={nome}, CPF={cpf}, Email={email}, Formação={formacao}, Senha={senha}")
 
         # Verificar se o CPF já existe
         usuario_existente = Usuario.query.filter_by(cpf=cpf).first()
@@ -66,13 +67,14 @@ def cadastro_participante():
                 db.session.add(novo_usuario)
                 db.session.commit()
                 alert = {"category": "success", "message": "Cadastro realizado com sucesso!"}
-                return redirect(url_for('login'))  # Redireciona após sucesso
+                return redirect(url_for('routes.login'))  # Certifique-se de usar o nome do Blueprint
             except Exception as e:
                 db.session.rollback()
                 print(f"Erro ao cadastrar usuário: {e}")
                 alert = {"category": "danger", "message": "Erro ao cadastrar. Tente novamente!"}
 
     return render_template('cadastro_participante.html', alert=alert)
+
 
 
 
@@ -86,7 +88,7 @@ def cadastro_participante():
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
-routes = Blueprint("routes", __name__)
+
 
 @routes.route('/login', methods=['GET', 'POST'])
 def login():
