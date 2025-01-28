@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from datetime import datetime
+from routes import routes 
 import os
 
 # Importando extensões corretamente
@@ -29,7 +30,7 @@ def create_app():
 
     # Criar o banco de dados dentro do contexto da aplicação
     with app.app_context():
-        db.create_all()
+       # db.create_all()
 
     return app
 
