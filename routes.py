@@ -26,14 +26,14 @@ routes = Blueprint('routes', __name__)
 # ===========================
 # ROTA DE HOME
 # ===========================
-@app.route('/')
+@routes.route('/')
 def home():
     return render_template('index.html')
 
 # ===========================
 # CADASTRO DE PARTICIPANTE
 # ===========================
-@app.route('/cadastro_participante', methods=['GET', 'POST'])
+@routes.route('/cadastro_participante', methods=['GET', 'POST'])
 def cadastro_participante():
     alert = None  # Inicializa o alerta como None
 
@@ -88,7 +88,7 @@ def load_user(user_id):
 
 routes = Blueprint("routes", __name__)
 
-@app.route('/login', methods=['GET', 'POST'])
+@routes.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form['email']
@@ -116,7 +116,7 @@ def login():
 
 
 
-@app.route('/logout')
+@routes.route('/logout')
 @login_required
 def logout():
     logout_user()
@@ -126,7 +126,7 @@ def logout():
 # ===========================
 # DASHBOARD - ADMIN & PARTICIPANTE
 # ===========================
-@app.route('/dashboard')
+@routes.route('/dashboard')
 @login_required
 def dashboard():
     if current_user.tipo == 'admin':
@@ -176,7 +176,7 @@ def dashboard():
 # GESTÃO DE OFICINAS - ADMIN
 # ===========================
 
-@app.route('/criar_oficina', methods=['GET', 'POST'])
+@routes.route('/criar_oficina', methods=['GET', 'POST'])
 @login_required
 def criar_oficina():
     if current_user.tipo != 'admin':
@@ -275,14 +275,14 @@ def criar_oficina():
 
 
 # Rota para buscar cidades via AJAX
-@app.route('/get_cidades/<estado_sigla>')
+@routes.route('/get_cidades/<estado_sigla>')
 def get_cidades(estado_sigla):
     cidades = obter_cidades(estado_sigla)
     print(f"📌 Estado recebido: {estado_sigla}, Cidades encontradas: {cidades}")  # Depuração
     return jsonify(cidades)
 
 
-@app.route('/editar_oficina/<int:oficina_id>', methods=['GET', 'POST'])
+@routes.route('/editar_oficina/<int:oficina_id>', methods=['GET', 'POST'])
 @login_required
 def editar_oficina(oficina_id):
     if current_user.tipo != 'admin':
@@ -353,7 +353,7 @@ def editar_oficina(oficina_id):
 
 
 
-@app.route('/excluir_oficina/<int:oficina_id>', methods=['POST'])
+@routes.route('/excluir_oficina/<int:oficina_id>', methods=['POST'])
 @login_required
 def excluir_oficina(oficina_id):
     if current_user.tipo != 'admin':
@@ -388,7 +388,7 @@ def excluir_oficina(oficina_id):
 # ===========================
 from flask import jsonify
 
-@app.route('/inscrever/<int:oficina_id>', methods=['POST'])
+@routes.route('/inscrever/<int:oficina_id>', methods=['POST'])
 @login_required
 def inscrever(oficina_id):
     if current_user.tipo != 'participante':
@@ -424,7 +424,7 @@ def inscrever(oficina_id):
 
 
     
-@app.route('/remover_inscricao/<int:oficina_id>', methods=['POST'])
+@routes.route('/remover_inscricao/<int:oficina_id>', methods=['POST'])
 @login_required
 def remover_inscricao(oficina_id):
     inscricao = Inscricao.query.filter_by(usuario_id=current_user.id, oficina_id=oficina_id).first()
@@ -443,7 +443,7 @@ def remover_inscricao(oficina_id):
     flash('Inscrição removida com sucesso!', 'success')
     return redirect(url_for('dashboard'))
 
-@app.route('/dashboard_participante')
+@routes.route('/dashboard_participante')
 @login_required
 def dashboard_participante():
     if current_user.tipo != 'participante':
@@ -523,7 +523,7 @@ def gerar_comprovante_pdf(usuario, oficina):
     # Retorna o caminho do arquivo
     return pdf_path
 
-@app.route('/baixar_comprovante/<int:oficina_id>')
+@routes.route('/baixar_comprovante/<int:oficina_id>')
 @login_required
 def baixar_comprovante(oficina_id):
     oficina = Oficina.query.get(oficina_id)
@@ -611,7 +611,7 @@ def gerar_pdf_inscritos_pdf(oficina, pdf_path):
 
     c.save()
     
-@app.route('/gerar_pdf_inscritos/<int:oficina_id>', methods=['GET'])
+@routes.route('/gerar_pdf_inscritos/<int:oficina_id>', methods=['GET'])
 @login_required
 def gerar_pdf_inscritos(oficina_id):
     # Buscar a oficina no banco de dados
@@ -688,7 +688,7 @@ def gerar_lista_frequencia_pdf(oficina, pdf_path):
 
     c.save()
 
-@app.route('/gerar_lista_frequencia/<int:oficina_id>')
+@routes.route('/gerar_lista_frequencia/<int:oficina_id>')
 @login_required
 def gerar_lista_frequencia(oficina_id):
     oficina = Oficina.query.get(oficina_id)
@@ -763,7 +763,7 @@ def gerar_certificados_pdf(oficina, inscritos, pdf_path):
 
     c.save()
 
-@app.route('/gerar_certificados/<int:oficina_id>', methods=['GET'])
+@routes.route('/gerar_certificados/<int:oficina_id>', methods=['GET'])
 @login_required
 def gerar_certificados(oficina_id):
     if current_user.tipo != 'admin':
@@ -792,7 +792,7 @@ def gerar_certificados(oficina_id):
     flash("Certificados gerados com sucesso!", "success")
     return send_file(pdf_path, as_attachment=True)
 
-@app.route('/checkin/<int:oficina_id>', methods=['GET', 'POST'])
+@routes.route('/checkin/<int:oficina_id>', methods=['GET', 'POST'])
 @login_required
 def checkin(oficina_id):
     oficina = Oficina.query.get_or_404(oficina_id)
@@ -836,7 +836,7 @@ def checkin(oficina_id):
 
 
 
-@app.route('/oficina/<int:oficina_id>/checkins', methods=['GET'])
+@routes.route('/oficina/<int:oficina_id>/checkins', methods=['GET'])
 @login_required
 def lista_checkins(oficina_id):
     if current_user.tipo != 'admin':
@@ -867,7 +867,7 @@ def lista_checkins(oficina_id):
     )
 
 
-@app.route('/gerar_pdf_checkins/<int:oficina_id>', methods=['GET'])
+@routes.route('/gerar_pdf_checkins/<int:oficina_id>', methods=['GET'])
 @login_required
 def gerar_pdf_checkins(oficina_id):
     oficina = Oficina.query.get_or_404(oficina_id)
