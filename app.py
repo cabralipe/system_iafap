@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Boa prática
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', '12303')
+app.register_blueprint(routes)
 
 # Inicializando extensões
 db = SQLAlchemy(app)
@@ -21,6 +22,8 @@ migrate = Migrate(app, db)
 # Configuração do Flask-Login
 login_manager.login_view = "login"
 login_manager.session_protection = "strong"
+
+
 
 # Definição do modelo de usuário
 class Usuario(db.Model):

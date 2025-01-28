@@ -23,12 +23,13 @@ from models import Oficina, OficinaDia
 from utils import obter_estados, obter_cidades
 from utils import gerar_qr_code  # Importa a função de gerar QR Code
 from reportlab.pdfbase.ttfonts import TTFont
+from flask import Blueprint
 from reportlab.pdfbase import pdfmetrics
 
 # Registrar a fonte personalizada
 pdfmetrics.registerFont(TTFont("AlexBrush", "AlexBrush-Regular.ttf"))
 
-
+routes = Blueprint('routes', __name__)  # Criando o Blueprint
 
 # ===========================
 # ROTA DE HOME
@@ -92,6 +93,7 @@ def cadastro_participante():
 @login_manager.user_loader
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
