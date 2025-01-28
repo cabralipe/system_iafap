@@ -123,7 +123,7 @@ def login():
 def logout():
     logout_user()
     flash('Logout realizado com sucesso!', 'info')
-     return redirect(url_for('routes.login'))
+    return redirect(url_for('routes.login'))
 
 # ===========================
 # DASHBOARD - ADMIN & PARTICIPANTE
