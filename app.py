@@ -25,7 +25,7 @@ login_manager.session_protection = "strong"
 
 @app.route("/")
 def home():
-    return "Hello, Heroku! A aplicação está rodando!"
+    return render_template("index.html")
 
 # Definição do filtro para formatação de datas
 @app.template_filter('string_to_date')
