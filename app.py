@@ -3,12 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from datetime import datetime
-from routes import routes 
 import os
-
-
-with app.app_context():
-    db.create_all()  # Isso criará todas as tabelas automaticamente quando o app iniciar
 
 # Importando extensões corretamente
 from extensions import db, login_manager, migrate
@@ -30,18 +25,19 @@ def create_app():
 
     # Importação e registro das rotas
     from routes import routes
-    app.register_blueprint(routes)  # Agora está correto
+    app.register_blueprint(routes)
 
     return app
 
 app = create_app()
 
+# 🔹 Agora podemos chamar app.app_context() porque o app já foi definido
+with app.app_context():
+    db.create_all()  # Criando as tabelas no SQLite se não existirem
 
+# Configurações globais
 SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///database.db")
-
-
-
 
 # Carregamento do usuário no Flask-Login
 from models import Usuario  # Agora podemos importar sem erro
