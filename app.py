@@ -3,7 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from datetime import datetime
+from routes import *  # Importa todas as rotas
 import os
+
 
 # Inicializando a aplicação
 app = Flask(__name__)
