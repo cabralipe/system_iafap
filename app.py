@@ -28,11 +28,10 @@ def create_app():
     from routes import routes
     app.register_blueprint(routes)
 
-    # Criar o banco de dados dentro do contexto da aplicação
-    with app.app_context():
-       # db.create_all()
-
+    with open('config.json', 'r') as config_file:
+        data = json.load(config_file)  # ✅ O bloco precisa estar indentado corretamente
     return app
+
 
 app = create_app()
 
