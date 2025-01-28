@@ -6,6 +6,10 @@ from datetime import datetime
 from routes import routes 
 import os
 
+
+with app.app_context():
+    db.create_all()  # Isso criará todas as tabelas automaticamente quando o app iniciar
+
 # Importando extensões corretamente
 from extensions import db, login_manager, migrate
 
