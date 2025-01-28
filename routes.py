@@ -1,39 +1,27 @@
-from flask import render_template, redirect, url_for, flash, request
+# 📌 Importações de Bibliotecas Externas
+from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, send_file
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Blueprint, render_template, request, redirect, url_for, flash
-from flask_login import login_user
-from models import Usuario
-from extensions import db, login_manager  # Importando apenas o necessário
-
-from models import Usuario, Oficina, Inscricao, OficinaDia, Checkin
-from datetime import datetime
-import os
 from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-from flask import send_file
+from reportlab.lib.pagesizes import letter, landscape, A4
 from reportlab.lib import colors
+from reportlab.lib.utils import ImageReader
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
-from datetime import datetime
-import os
-from reportlab.lib.pagesizes import landscape, A4
-from reportlab.lib.utils import ImageReader
-from werkzeug.security import generate_password_hash
-import requests
-from flask import render_template, request, redirect, url_for, flash, jsonify
-from flask_login import login_required, current_user
-from models import Oficina, OficinaDia
-from utils import obter_estados, obter_cidades
-from utils import gerar_qr_code  # Importa a função de gerar QR Code
 from reportlab.pdfbase.ttfonts import TTFont
-from flask import Blueprint
 from reportlab.pdfbase import pdfmetrics
 
-# Registrar a fonte personalizada
+# 📌 Importações Internas
+from models import Usuario, Oficina, Inscricao, OficinaDia, Checkin
+from extensions import db, login_manager  # Importando apenas o necessário
+from utils import obter_estados, obter_cidades, gerar_qr_code  # Funções auxiliares
+
+# 📌 Registrar fonte personalizada para PDFs
 pdfmetrics.registerFont(TTFont("AlexBrush", "AlexBrush-Regular.ttf"))
 
-routes = Blueprint('routes', __name__)  # Criando o Blueprint
+# 📌 Criando o Blueprint
+routes = Blueprint('routes', __name__)
+
 
 # ===========================
 # ROTA DE HOME
