@@ -23,6 +23,10 @@ migrate.init_app(app, db)
 login_manager.login_view = "login"
 login_manager.session_protection = "strong"
 
+@app.route("/")
+def home():
+    return "Hello, Heroku! A aplicação está rodando!"
+
 # Definição do filtro para formatação de datas
 @app.template_filter('string_to_date')
 def string_to_date(value):
