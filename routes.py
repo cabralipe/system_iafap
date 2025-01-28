@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 📌 Importações de Bibliotecas Externas
 from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, send_file
 from flask_login import login_user, logout_user, login_required, current_user
@@ -21,11 +22,44 @@ pdfmetrics.registerFont(TTFont("AlexBrush", "AlexBrush-Regular.ttf"))
 
 # 📌 Criando o Blueprint
 routes = Blueprint('routes', __name__)
+=======
+from flask import render_template, redirect, url_for, flash, request
+from flask_login import login_user, logout_user, login_required, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from app import app, db, login_manager
+from models import Usuario, Oficina, Inscricao, OficinaDia, Checkin
+from datetime import datetime
+import os
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from flask import send_file
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+from datetime import datetime
+import os
+from reportlab.lib.pagesizes import landscape, A4
+from reportlab.lib.utils import ImageReader
+from werkzeug.security import generate_password_hash
+import requests
+from flask import render_template, request, redirect, url_for, flash, jsonify
+from flask_login import login_required, current_user
+from models import Oficina, OficinaDia
+from utils import obter_estados, obter_cidades
+from utils import gerar_qr_code  # Importa a função de gerar QR Code
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfbase import pdfmetrics
+
+# Registrar a fonte personalizada
+pdfmetrics.registerFont(TTFont("AlexBrush", "AlexBrush-Regular.ttf"))
+
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 
 
 # ===========================
 # ROTA DE HOME
 # ===========================
+<<<<<<< HEAD
 @routes.route('/')
 def home():
     return render_template('index.html')
@@ -37,6 +71,16 @@ from models import db, Usuario  # Certifique-se de que os modelos estão sendo i
 routes = Blueprint('routes', __name__)  # O nome do Blueprint deve ser 'routes'
 
 @routes.route('/cadastro_participante', methods=['GET', 'POST'])
+=======
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+# ===========================
+# CADASTRO DE PARTICIPANTE
+# ===========================
+@app.route('/cadastro_participante', methods=['GET', 'POST'])
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 def cadastro_participante():
     alert = None  # Inicializa o alerta como None
 
@@ -47,6 +91,11 @@ def cadastro_participante():
         senha = request.form.get('senha')
         formacao = request.form.get('formacao')
 
+<<<<<<< HEAD
+=======
+        print(f"📌 Recebido: Nome={nome}, CPF={cpf}, Email={email}, Formação={formacao}, Senha={senha}")
+
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
         # Verificar se o CPF já existe
         usuario_existente = Usuario.query.filter_by(cpf=cpf).first()
         if usuario_existente:
@@ -67,7 +116,11 @@ def cadastro_participante():
                 db.session.add(novo_usuario)
                 db.session.commit()
                 alert = {"category": "success", "message": "Cadastro realizado com sucesso!"}
+<<<<<<< HEAD
                 return redirect(url_for('routes.login'))  # Certifique-se de usar o nome do Blueprint
+=======
+                return redirect(url_for('login'))  # Redireciona após sucesso
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
             except Exception as e:
                 db.session.rollback()
                 print(f"Erro ao cadastrar usuário: {e}")
@@ -80,7 +133,10 @@ def cadastro_participante():
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 # ===========================
 # GESTÃO DE USUÁRIOS
 # ===========================
@@ -88,9 +144,13 @@ def cadastro_participante():
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
+<<<<<<< HEAD
 
 
 @routes.route('/login', methods=['GET', 'POST'])
+=======
+@app.route('/login', methods=['GET', 'POST'])
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 def login():
     if request.method == 'POST':
         email = request.form['email']
@@ -110,7 +170,11 @@ def login():
             if usuario.tipo == 'admin':
                 return redirect(url_for('dashboard'))  # Redireciona para admin
             else:
+<<<<<<< HEAD
                 return redirect(url_for(__name__ + ".dashboard_participante")) # Redireciona para participante
+=======
+                return redirect(url_for('dashboard_participante'))  # Redireciona para participante
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
         else:
             flash('E-mail ou senha incorretos!', 'danger')
 
@@ -118,17 +182,29 @@ def login():
 
 
 
+<<<<<<< HEAD
 @routes.route('/logout')
+=======
+@app.route('/logout')
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 @login_required
 def logout():
     logout_user()
     flash('Logout realizado com sucesso!', 'info')
+<<<<<<< HEAD
     return redirect(url_for('routes.login'))
+=======
+    return redirect(url_for('home'))
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 
 # ===========================
 # DASHBOARD - ADMIN & PARTICIPANTE
 # ===========================
+<<<<<<< HEAD
 @routes.route('/dashboard')
+=======
+@app.route('/dashboard')
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 @login_required
 def dashboard():
     if current_user.tipo == 'admin':
@@ -169,7 +245,11 @@ def dashboard():
 
         return render_template('dashboard_admin.html', usuario=current_user, oficinas=oficinas_com_inscritos)
 
+<<<<<<< HEAD
     return redirect(url_for(__name__ + ".dashboard_participante"))
+=======
+    return redirect(url_for('dashboard_participante'))
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 
 
 
@@ -178,7 +258,11 @@ def dashboard():
 # GESTÃO DE OFICINAS - ADMIN
 # ===========================
 
+<<<<<<< HEAD
 @routes.route('/criar_oficina', methods=['GET', 'POST'])
+=======
+@app.route('/criar_oficina', methods=['GET', 'POST'])
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 @login_required
 def criar_oficina():
     if current_user.tipo != 'admin':
@@ -277,14 +361,22 @@ def criar_oficina():
 
 
 # Rota para buscar cidades via AJAX
+<<<<<<< HEAD
 @routes.route('/get_cidades/<estado_sigla>')
+=======
+@app.route('/get_cidades/<estado_sigla>')
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 def get_cidades(estado_sigla):
     cidades = obter_cidades(estado_sigla)
     print(f"📌 Estado recebido: {estado_sigla}, Cidades encontradas: {cidades}")  # Depuração
     return jsonify(cidades)
 
 
+<<<<<<< HEAD
 @routes.route('/editar_oficina/<int:oficina_id>', methods=['GET', 'POST'])
+=======
+@app.route('/editar_oficina/<int:oficina_id>', methods=['GET', 'POST'])
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 @login_required
 def editar_oficina(oficina_id):
     if current_user.tipo != 'admin':
@@ -355,7 +447,11 @@ def editar_oficina(oficina_id):
 
 
 
+<<<<<<< HEAD
 @routes.route('/excluir_oficina/<int:oficina_id>', methods=['POST'])
+=======
+@app.route('/excluir_oficina/<int:oficina_id>', methods=['POST'])
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 @login_required
 def excluir_oficina(oficina_id):
     if current_user.tipo != 'admin':
@@ -390,7 +486,11 @@ def excluir_oficina(oficina_id):
 # ===========================
 from flask import jsonify
 
+<<<<<<< HEAD
 @routes.route('/inscrever/<int:oficina_id>', methods=['POST'])
+=======
+@app.route('/inscrever/<int:oficina_id>', methods=['POST'])
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 @login_required
 def inscrever(oficina_id):
     if current_user.tipo != 'participante':
@@ -426,7 +526,11 @@ def inscrever(oficina_id):
 
 
     
+<<<<<<< HEAD
 @routes.route('/remover_inscricao/<int:oficina_id>', methods=['POST'])
+=======
+@app.route('/remover_inscricao/<int:oficina_id>', methods=['POST'])
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 @login_required
 def remover_inscricao(oficina_id):
     inscricao = Inscricao.query.filter_by(usuario_id=current_user.id, oficina_id=oficina_id).first()
@@ -445,7 +549,11 @@ def remover_inscricao(oficina_id):
     flash('Inscrição removida com sucesso!', 'success')
     return redirect(url_for('dashboard'))
 
+<<<<<<< HEAD
 @routes.route('/dashboard_participante')
+=======
+@app.route('/dashboard_participante')
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 @login_required
 def dashboard_participante():
     if current_user.tipo != 'participante':
@@ -525,7 +633,11 @@ def gerar_comprovante_pdf(usuario, oficina):
     # Retorna o caminho do arquivo
     return pdf_path
 
+<<<<<<< HEAD
 @routes.route('/baixar_comprovante/<int:oficina_id>')
+=======
+@app.route('/baixar_comprovante/<int:oficina_id>')
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 @login_required
 def baixar_comprovante(oficina_id):
     oficina = Oficina.query.get(oficina_id)
@@ -613,7 +725,11 @@ def gerar_pdf_inscritos_pdf(oficina, pdf_path):
 
     c.save()
     
+<<<<<<< HEAD
 @routes.route('/gerar_pdf_inscritos/<int:oficina_id>', methods=['GET'])
+=======
+@app.route('/gerar_pdf_inscritos/<int:oficina_id>', methods=['GET'])
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 @login_required
 def gerar_pdf_inscritos(oficina_id):
     # Buscar a oficina no banco de dados
@@ -690,7 +806,11 @@ def gerar_lista_frequencia_pdf(oficina, pdf_path):
 
     c.save()
 
+<<<<<<< HEAD
 @routes.route('/gerar_lista_frequencia/<int:oficina_id>')
+=======
+@app.route('/gerar_lista_frequencia/<int:oficina_id>')
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 @login_required
 def gerar_lista_frequencia(oficina_id):
     oficina = Oficina.query.get(oficina_id)
@@ -765,7 +885,11 @@ def gerar_certificados_pdf(oficina, inscritos, pdf_path):
 
     c.save()
 
+<<<<<<< HEAD
 @routes.route('/gerar_certificados/<int:oficina_id>', methods=['GET'])
+=======
+@app.route('/gerar_certificados/<int:oficina_id>', methods=['GET'])
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 @login_required
 def gerar_certificados(oficina_id):
     if current_user.tipo != 'admin':
@@ -794,7 +918,11 @@ def gerar_certificados(oficina_id):
     flash("Certificados gerados com sucesso!", "success")
     return send_file(pdf_path, as_attachment=True)
 
+<<<<<<< HEAD
 @routes.route('/checkin/<int:oficina_id>', methods=['GET', 'POST'])
+=======
+@app.route('/checkin/<int:oficina_id>', methods=['GET', 'POST'])
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 @login_required
 def checkin(oficina_id):
     oficina = Oficina.query.get_or_404(oficina_id)
@@ -838,7 +966,11 @@ def checkin(oficina_id):
 
 
 
+<<<<<<< HEAD
 @routes.route('/oficina/<int:oficina_id>/checkins', methods=['GET'])
+=======
+@app.route('/oficina/<int:oficina_id>/checkins', methods=['GET'])
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 @login_required
 def lista_checkins(oficina_id):
     if current_user.tipo != 'admin':
@@ -869,7 +1001,11 @@ def lista_checkins(oficina_id):
     )
 
 
+<<<<<<< HEAD
 @routes.route('/gerar_pdf_checkins/<int:oficina_id>', methods=['GET'])
+=======
+@app.route('/gerar_pdf_checkins/<int:oficina_id>', methods=['GET'])
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 @login_required
 def gerar_pdf_checkins(oficina_id):
     oficina = Oficina.query.get_or_404(oficina_id)

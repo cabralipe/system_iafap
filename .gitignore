@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Ignorar a pasta do ambiente virtual
 venv/
 
@@ -21,3 +22,25 @@ __pycache__/
 # Banco de dados SQLite (se aplicável)
 *.sqlite3
 *.db
+=======
+# 🔹 Ignorar arquivos sensíveis e desnecessários
+
+# Diretórios de ambiente virtual
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# 🔹 Ignorar configurações do sistema operacional
+.DS_Store
+Thumbs.db
+
+# 🔹 Arquivos sensíveis
+.env
+*.sqlite3
+database.db
+
+# 🔹 Logs e arquivos temporários
+*.log
+instance/
+>>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
