@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # -*- coding: utf-8 -*-
 
 from flask import Flask
@@ -30,7 +29,6 @@ with app.app_context():
         db.session.commit()
 
         print("Administrador criado com sucesso!")
-=======
 from app import db
 from models import Usuario
 from werkzeug.security import generate_password_hash
@@ -50,4 +48,3 @@ db.session.add(admin)
 db.session.commit()
 
 print("Administrador criado com sucesso!")
->>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)

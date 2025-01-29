@@ -30,16 +30,12 @@ pdfmetrics.registerFont(TTFont("AlexBrush", "AlexBrush-Regular.ttf"))
 
 
 
-# ===========================
 # ROTA DE HOME
-# ===========================
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# ===========================
 # CADASTRO DE PARTICIPANTE
-# ===========================
 @app.route('/cadastro_participante', methods=['GET', 'POST'])
 def cadastro_participante():
     alert = None  # Inicializa o alerta como None
@@ -86,9 +82,7 @@ def cadastro_participante():
 
 
 
-# ===========================
 # GESTÃO DE USUÁRIOS
-# ===========================
 @login_manager.user_loader
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
@@ -128,9 +122,7 @@ def logout():
     flash('Logout realizado com sucesso!', 'info')
     return redirect(url_for('home'))
 
-# ===========================
 # DASHBOARD - ADMIN & PARTICIPANTE
-# ===========================
 @app.route('/dashboard')
 @login_required
 def dashboard():
@@ -177,9 +169,7 @@ def dashboard():
 
 
 
-# ===========================
 # GESTÃO DE OFICINAS - ADMIN
-# ===========================
 
 @app.route('/criar_oficina', methods=['GET', 'POST'])
 @login_required
@@ -388,9 +378,7 @@ def excluir_oficina(oficina_id):
 
     return redirect(url_for('dashboard'))
 
-# ===========================
 # INSCRIÇÃO EM OFICINAS - PARTICIPANTE
-# ===========================
 from flask import jsonify
 
 @app.route('/inscrever/<int:oficina_id>', methods=['POST'])
