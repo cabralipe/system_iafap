@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -51,7 +51,7 @@ def load_user(user_id):
 @app.route("/")
 def home():
     return render_template("index.html")
-=======
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -78,7 +78,7 @@ migrate.init_app(app, db)
 
 login_manager.login_view = "login"
 login_manager.session_protection = "strong"
->>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
+
 
 # Definição do filtro para formatação de datas
 @app.template_filter('string_to_date')
@@ -88,8 +88,6 @@ def string_to_date(value):
     except (ValueError, TypeError):
         return value  # Retorna a string original se não puder converter
 
-<<<<<<< HEAD
-=======
 # Importações que dependem do `db`
 from models import Usuario  # Agora funciona sem erro de ciclo!
 from routes import *  # Importa rotas depois de inicializar o app
@@ -103,6 +101,5 @@ def load_user(user_id):
 with app.app_context():
     db.create_all()
 
->>>>>>> 54c2bed (Adiciona .gitignore para proteger arquivos sensíveis)
 if __name__ == '__main__':
     app.run(debug=True)
